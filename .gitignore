@@ -13,6 +13,7 @@ npm-debug.*
 .eslintrc.json
 .prettierrc
 .editorconfig
+.package-lock.json
 web-build/
 
 # macOS
