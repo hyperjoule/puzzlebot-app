@@ -8,6 +8,11 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
+.gitignore
+.gitattributes
+.eslintrc.json
+.prettierrc
+.editorconfig
 web-build/
 
 # macOS
