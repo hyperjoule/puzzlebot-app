@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
+import PuzzleScreen from "./screens/PuzzleScreen/PuzzleScreen";
 
 export default function App() {
+  const [gameStarted, setGameStarted] = useState(false);
+
   const handleStartGame = () => {
-    // Handle starting the game here
+    setGameStarted(true);
+  };
+
+  const handleExitGame = () => {
+    setGameStarted(false);
   };
 
   return (
     <View style={styles.container}>
-      <HomeScreen onStartGame={handleStartGame} />
+      {!gameStarted ? (
+        <HomeScreen onStartGame={handleStartGame} />
+      ) : (
+        <PuzzleScreen onExitGame={handleExitGame} />
+      )}
       <StatusBar style="auto" />
     </View>
   );
@@ -18,7 +29,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
-    flex: 1
+    flex: 1,
+    backgroundColor: "#fff"
   }
 });
