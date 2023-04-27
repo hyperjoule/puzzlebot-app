@@ -11,7 +11,6 @@ interface PuzzleScreenProps {
 const PuzzleScreen: React.FC<PuzzleScreenProps> = ({ onExitGame }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Puzzle Screen</Text>
       <PuzzleGrid />
       <TouchableOpacity style={styles.button} onPress={onExitGame}>
         <Text style={styles.buttonText}>Exit Game</Text>

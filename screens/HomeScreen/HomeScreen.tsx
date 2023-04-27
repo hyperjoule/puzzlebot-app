@@ -10,7 +10,7 @@ interface HomeScreenProps {
 const HomeScreen: React.FC<HomeScreenProps> = ({ onStartGame }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>PuzzleBot</Text>
+      <Text style={styles.title}>Random Image Scrambler</Text>
       <TouchableOpacity style={styles.button} onPress={onStartGame}>
         <Text style={styles.buttonText}>Start Game</Text>
       </TouchableOpacity>
