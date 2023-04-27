@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { Animated, Image } from "react-native";
+import { Animated, Image, TouchableOpacity } from "react-native";
 import { styles } from "./PuzzlePiece.styles";
 
 interface PuzzlePieceProps {
@@ -9,6 +9,9 @@ interface PuzzlePieceProps {
   fromCol: number;
   toRow: number;
   toCol: number;
+  numRows: number;
+  numCols: number;
+  onPieceTap: (fromRow: number, fromCol: number) => void;
 }
 
 const PuzzlePiece: React.FC<PuzzlePieceProps> = ({
@@ -17,7 +20,10 @@ const PuzzlePiece: React.FC<PuzzlePieceProps> = ({
   fromRow,
   fromCol,
   toRow,
-  toCol
+  toCol,
+  numRows,
+  numCols,
+  onPieceTap
 }) => {
   const positionX = useRef(new Animated.Value(fromCol * pieceSize)).current;
   const positionY = useRef(new Animated.Value(fromRow * pieceSize)).current;
@@ -37,32 +43,39 @@ const PuzzlePiece: React.FC<PuzzlePieceProps> = ({
     ]).start();
   }, [pieceSize, toRow, toCol, positionX, positionY]);
 
+  const handlePieceTap = () => {
+    onPieceTap(fromRow, fromCol);
+  };
+
   return (
-    <Animated.View
-      style={[
-        styles.pieceContainer,
-        {
-          width: pieceSize,
-          height: pieceSize,
-          transform: [{ translateX: positionX }, { translateY: positionY }]
-        }
-      ]}
-    >
-      <Image
-        source={{ uri: imageURL }}
+    <TouchableOpacity onPress={handlePieceTap}>
+      <Animated.View
         style={[
-          styles.image,
+          styles.pieceContainer,
           {
-            width: pieceSize * 3, // Assuming numRows = 3
-            height: pieceSize * 3, // Assuming numCols = 3
-            transform: [
-              { translateX: -fromCol * pieceSize },
-              { translateY: -fromRow * pieceSize }
-            ]
+            width: pieceSize,
+            height: pieceSize,
+            zIndex: fromRow * numCols + fromCol,
+            transform: [{ translateX: positionX }, { translateY: positionY }]
           }
         ]}
-      />
-    </Animated.View>
+      >
+        <Image
+          source={{ uri: imageURL }}
+          style={[
+            styles.image,
+            {
+              width: pieceSize * numRows,
+              height: pieceSize * numCols,
+              transform: [
+                { translateX: -fromCol * pieceSize },
+                { translateY: -fromRow * pieceSize }
+              ]
+            }
+          ]}
+        />
+      </Animated.View>
+    </TouchableOpacity>
   );
 };
 

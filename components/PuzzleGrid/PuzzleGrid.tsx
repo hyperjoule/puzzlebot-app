@@ -6,7 +6,7 @@ import PuzzlePiece from "../PuzzlePiece/PuzzlePiece";
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface PuzzleGridProps {}
 
-const PuzzleGrid: React.FC<PuzzleGridProps> = (_props) => {
+const PuzzleGrid: React.FC<PuzzleGridProps> = () => {
   const { width } = getScreenDimensions();
   const imageSize = width < 1024 ? Math.floor(width * 0.75) : 512;
 
@@ -26,19 +26,31 @@ const PuzzleGrid: React.FC<PuzzleGridProps> = (_props) => {
 
     fetchImage();
   }, [imageSize]);
-
-  // Shuffle the puzzle pieces
   const shuffledIndices = [...Array(numRows * numCols).keys()].sort(
     () => Math.random() - 0.5
   );
 
-  // Generate puzzle pieces
+  const [piecePositions, setPiecePositions] = useState(shuffledIndices);
+
+  const updatePiecePosition = (fromRow: number, fromCol: number) => {
+    const fromIndex = fromRow * numCols + fromCol;
+    const toIndex = piecePositions.findIndex((index) => index === fromIndex);
+
+    const newPiecePositions = [...piecePositions];
+    [newPiecePositions[fromIndex], newPiecePositions[toIndex]] = [
+      newPiecePositions[toIndex],
+      newPiecePositions[fromIndex]
+    ];
+
+    setPiecePositions(newPiecePositions);
+  };
+
   const puzzlePieces = [];
   if (imageURL && isShuffled) {
     for (let row = 0; row < numRows; row++) {
       for (let col = 0; col < numCols; col++) {
         const index = row * numCols + col;
-        const shuffledIndex = shuffledIndices[index];
+        const shuffledIndex = piecePositions[index];
         const toRow = Math.floor(shuffledIndex / numCols);
         const toCol = shuffledIndex % numCols;
         puzzlePieces.push(
@@ -50,6 +62,9 @@ const PuzzleGrid: React.FC<PuzzleGridProps> = (_props) => {
             fromCol={col}
             toRow={toRow}
             toCol={toCol}
+            numRows={numRows}
+            numCols={numCols}
+            onPieceTap={updatePiecePosition}
           />
         );
       }
