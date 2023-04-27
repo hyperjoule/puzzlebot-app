@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     resizeMode: "cover"
   },
   pieceContainer: {
+    backgroundColor: "white",
     left: 0,
     overflow: "hidden",
     position: "absolute",

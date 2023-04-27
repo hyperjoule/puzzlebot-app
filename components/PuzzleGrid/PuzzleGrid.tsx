@@ -5,7 +5,7 @@ import PuzzlePiece from "../PuzzlePiece/PuzzlePiece";
 
 const PuzzleGrid = () => {
   const { width } = getScreenDimensions();
-  const imageSize = width < 1024 ? Math.floor(width * 0.75) : 512;
+  const imageSize = width < 1024 ? Math.floor(width * 0.9) : 512;
   const numRows = 4;
   const numCols = 4;
   const pieceSize = imageSize / numRows;
